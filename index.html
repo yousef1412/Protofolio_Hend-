@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary Quest — Grade 11 Unit 1 Interactive Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#211F3D;
+    --paper:#FFF9F0;
+    --card:#FFFFFF;
+    --soft:#FFFDF7;
+    --track:#F0EDE4;
+    --muted:#5c5878;
+    --muted2:#7a759a;
+    --done-bg:#F3FFF9;
+    --blank-bg:#FFF0C2;
+    --good-soft:#D9F7E8;
+    --bad-soft:#FFDCDC;
+    --good-bg:#DFF9EB; --good-fg:#14663f;
+    --bad-bg:#FFE3E3;  --bad-fg:#8f1f1f;
+    --hint-bg:#FFF3D6; --hint-fg:#7a5400;
+    --btn-bg:#211F3D;  --btn-fg:#FFFFFF;
+    --glow1:rgba(255,201,61,.35); --glow2:rgba(124,92,252,.18); --glow3:rgba(23,184,166,.18);
+    --coral:#FF6B6B; --teal:#17B8A6; --purple:#7C5CFC; --amber:#F5A623; --green:#33C481;
+    --red:#FF5C5C;
+    --shadow:6px 6px 0 var(--ink);
+    --shadow-sm:3px 3px 0 var(--ink);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#EDE9FF;
+      --paper:#15132C;
+      --card:#221F42;
+      --soft:#1C1A38;
+      --track:#100E24;
+      --muted:#B6B0D8;
+      --muted2:#9A94C0;
+      --done-bg:#1E3A33;
+      --blank-bg:#3A3163;
+      --good-soft:rgba(51,196,129,.3);
+      --bad-soft:rgba(255,92,92,.3);
+      --good-bg:rgba(51,196,129,.18); --good-fg:#8CF0C0;
+      --bad-bg:rgba(255,92,92,.18);   --bad-fg:#FFB6B6;
+      --hint-bg:rgba(245,166,35,.16);  --hint-fg:#FFD79A;
+      --btn-bg:#7C5CFC; --btn-fg:#FFFFFF;
+      --glow1:rgba(255,201,61,.12); --glow2:rgba(124,92,252,.22); --glow3:rgba(23,184,166,.14);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#EDE9FF;
+    --paper:#15132C;
+    --card:#221F42;
+    --soft:#1C1A38;
+    --track:#100E24;
+    --muted:#B6B0D8;
+    --muted2:#9A94C0;
+    --done-bg:#1E3A33;
+    --blank-bg:#3A3163;
+    --good-soft:rgba(51,196,129,.3);
+    --bad-soft:rgba(255,92,92,.3);
+    --good-bg:rgba(51,196,129,.18); --good-fg:#8CF0C0;
+    --bad-bg:rgba(255,92,92,.18);   --bad-fg:#FFB6B6;
+    --hint-bg:rgba(245,166,35,.16);  --hint-fg:#FFD79A;
+    --btn-bg:#7C5CFC; --btn-fg:#FFFFFF;
+    --glow1:rgba(255,201,61,.12); --glow2:rgba(124,92,252,.22); --glow3:rgba(23,184,166,.14);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
+  }
+  body{
+    margin:0; font-family:'Nunito',sans-serif; color:var(--ink);
+    background:
+      radial-gradient(circle at 12% 8%, var(--glow1), transparent 32%),
+      radial-gradient(circle at 90% 20%, var(--glow2), transparent 30%),
+      radial-gradient(circle at 85% 90%, var(--glow3), transparent 30%),
+      var(--paper);
+    background-attachment:fixed;
+    min-height:100vh; padding-bottom:80px;
+  }
+  .wrap{max-width:880px; margin:0 auto; padding:0 14px;}
+  :focus-visible{outline:3px solid var(--purple); outline-offset:2px;}
+
+  /* ---------- Header ---------- */
+  header{padding:26px 0 8px; text-align:center;}
+  .kicker{font-weight:900; letter-spacing:.14em; font-size:12px; color:var(--purple);}
+  h1{font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(30px,7vw,50px); margin:6px 0 4px;
+     background:linear-gradient(90deg,var(--coral),var(--amber) 45%,var(--teal));
+     -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .sub{font-weight:700; color:var(--muted); margin:0 auto 16px; font-size:15px; max-width:60ch;}
+
+  .scoreboard{
+    position:sticky; top:10px; z-index:50;
+    background:var(--card); border:3px solid var(--ink); border-radius:20px; box-shadow:var(--shadow);
+    padding:12px 16px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; justify-content:center;
+  }
+  .scoreboard .stat{font-weight:900; font-size:14px; white-space:nowrap;}
+  .bigbar{flex:1; min-width:150px; height:18px; border:2.5px solid var(--ink); border-radius:12px; background:var(--track); overflow:hidden; position:relative;}
+  .bigbar>span{position:absolute; inset:0; width:0%; background:linear-gradient(90deg,var(--teal),var(--green)); transition:width .5s cubic-bezier(.4,1.3,.6,1);}
+  .tool{font-family:'Fredoka',sans-serif; font-size:13px; font-weight:600; background:var(--card); color:var(--ink);
+    border:2.5px solid var(--ink); border-radius:14px; padding:7px 13px; cursor:pointer; box-shadow:var(--shadow-sm); transition:.12s;}
+  .tool:hover{transform:translate(-1px,-1px); box-shadow:4px 4px 0 var(--ink);}
+  .tool[aria-pressed="true"]{background:var(--purple); color:#fff;}
+  .toolbar{display:flex; gap:8px; flex-wrap:wrap; justify-content:center; width:100%;}
+
+  /* ---------- Tabs ---------- */
+  .tabs{display:flex; gap:9px; overflow-x:auto; padding:18px 2px 10px; -webkit-overflow-scrolling:touch;}
+  .tab{flex:1 0 150px; text-align:left; background:var(--card); color:var(--ink); border:3px solid var(--ink); border-radius:18px;
+    padding:10px 13px; cursor:pointer; box-shadow:var(--shadow-sm); transition:.15s; font-family:'Nunito',sans-serif;}
+  .tab:hover{transform:translateY(-3px);}
+  .tab .t-name{font-family:'Fredoka',sans-serif; font-weight:600; font-size:14.5px; display:block;}
+  .tab .t-count{font-size:11.5px; font-weight:800; color:var(--muted2);}
+  .tab .t-bar{height:7px; border:2px solid var(--ink); border-radius:6px; margin-top:7px; background:var(--track); overflow:hidden;}
+  .tab .t-bar>span{display:block; height:100%; width:0%; transition:width .4s;}
+  .tab.c0{border-top:6px solid var(--coral);} .tab.c0 .t-bar>span{background:var(--coral);}
+  .tab.c1{border-top:6px solid var(--teal);}  .tab.c1 .t-bar>span{background:var(--teal);}
+  .tab.c2{border-top:6px solid var(--purple);}.tab.c2 .t-bar>span{background:var(--purple);}
+  .tab.c3{border-top:6px solid var(--amber);} .tab.c3 .t-bar>span{background:var(--amber);}
+  .tab.c4{border-top:6px solid var(--green);}
+  .tab.done{background:var(--done-bg);}
+
+  /* ---------- Panels (word bank, key) ---------- */
+  details.panel{margin:14px 0 6px; background:var(--card); border:3px solid var(--ink); border-radius:20px; box-shadow:var(--shadow); overflow:hidden;}
+  details.panel summary{cursor:pointer; padding:14px 18px; font-family:'Fredoka',sans-serif; font-weight:600; font-size:17px; list-style:none;}
+  details.panel summary::-webkit-details-marker{display:none;}
+  details.panel summary::after{content:"▾"; float:right; color:var(--purple);}
+  details.panel[open] summary::after{content:"▴";}
+  details.bank summary::before{content:"📖 ";}
+  details.keybox{margin-top:40px;}
+  details.keybox summary::before{content:"🔑 ";}
+  details.keybox summary::after{color:var(--amber);}
+  .bank-search{margin:0 16px 12px; width:calc(100% - 32px); font-family:'Nunito',sans-serif; font-weight:800; font-size:14px;
+    color:var(--ink); background:var(--soft); border:2.5px solid var(--ink); border-radius:12px; padding:9px 13px; outline:none;}
+  .bank-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:9px; padding:0 16px 16px;}
+  .bank-item{border:2.5px solid var(--ink); border-radius:14px; padding:9px 12px; background:var(--soft);}
+  .bank-item.hide{display:none;}
+  .bank-item b{font-family:'Fredoka',sans-serif; font-weight:600; font-size:15px;}
+  .bank-item .pos{font-size:10.5px; font-weight:900; color:#fff; background:var(--purple); border-radius:10px; padding:1px 8px; margin-left:6px; vertical-align:middle;}
+  .bank-item p{margin:4px 0 0; font-size:12.5px; font-weight:700; color:var(--muted); line-height:1.4;}
+  .bank-empty{padding:0 16px 16px; font-weight:800; color:var(--muted);}
+
+  /* ---------- Sections ---------- */
+  .sec{margin-top:34px;}
+  .sec.hidden{display:none;}
+  .sec-head{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:4px;}
+  .sec-emoji{font-size:30px;}
+  .sec-head h2{font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(21px,4.5vw,28px); margin:0;}
+  .sec-head .pill{font-size:12px; font-weight:900; border:2.5px solid var(--ink); border-radius:20px; padding:3px 12px; color:#fff;}
+  .sec-head .done-pill{font-size:12px; font-weight:900; color:var(--green); display:none;}
+  .sec-desc{font-weight:700; color:var(--muted); font-size:13.5px; margin:2px 0 14px; max-width:70ch;}
+
+  .q{background:var(--card); border:3px solid var(--ink); border-radius:20px; box-shadow:var(--shadow);
+      padding:16px 16px 14px; margin-bottom:16px; position:relative;}
+  .q.hidden{display:none;}
+  .q .num{position:absolute; top:-14px; left:14px; min-width:30px; height:30px; padding:0 6px; border-radius:15px; border:3px solid var(--ink);
+      display:flex; align-items:center; justify-content:center; font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; color:#fff;}
+  .q.t0 .num{background:var(--coral);} .q.t1 .num{background:var(--teal);}
+  .q.t2 .num{background:var(--purple);} .q.t3 .num{background:var(--amber);}
+  .q.t0{border-left:8px solid var(--coral);} .q.t1{border-left:8px solid var(--teal);}
+  .q.t2{border-left:8px solid var(--purple);} .q.t3{border-left:8px solid var(--amber);}
+  .q-sentence{font-size:15.5px; font-weight:800; line-height:1.55; margin:6px 0 12px;}
+  .q-sentence b{color:var(--purple);}
+  .blank{display:inline-block; min-width:110px; text-align:center; background:var(--blank-bg); border:2px solid var(--ink);
+      border-radius:8px; padding:0 10px; font-family:'Fredoka',sans-serif; font-weight:600;}
+  .blank.filled-good{background:var(--good-soft);} .blank.filled-bad{background:var(--bad-soft);}
+
+  .opts{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  @media (max-width:480px){.opts{grid-template-columns:1fr;}}
+  .opt{font-family:'Nunito',sans-serif; font-weight:800; font-size:14.5px; text-align:left; background:var(--card); color:var(--ink);
+      border:2.5px solid var(--ink); border-radius:14px; padding:10px 13px; cursor:pointer; box-shadow:var(--shadow-sm); transition:.12s;}
+  .opt:hover:not(:disabled){transform:translate(-1px,-1px); box-shadow:4px 4px 0 var(--ink);}
+  .opt:disabled{cursor:default;}
+  .opt .key{display:inline-block; width:22px; height:22px; border:2px solid var(--ink); border-radius:7px; text-align:center;
+      font-family:'Fredoka',sans-serif; font-size:12px; line-height:19px; margin-right:8px; background:var(--track);}
+  .opt.good{background:var(--green); color:#fff; animation:pop .35s;}
+  .opt.bad{background:var(--red); color:#fff; animation:shake .35s;}
+  .opt.reveal{background:var(--good-soft); border-color:var(--green);}
+  @keyframes pop{40%{transform:scale(1.04);}}
+  @keyframes shake{25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+
+  .fill-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+  .fill-row input{font-family:'Fredoka',sans-serif; font-weight:600; font-size:16px; color:var(--ink);
+      border:2.5px solid var(--ink); border-radius:12px; padding:9px 14px; min-width:190px; flex:1 1 190px; outline:none; background:var(--soft);}
+  .fill-row input:focus{box-shadow:var(--shadow-sm); background:var(--card);}
+  .fill-row input.good{background:var(--good-soft);} .fill-row input.bad{background:var(--bad-soft);}
+  .check-btn{font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; background:var(--btn-bg); color:var(--btn-fg);
+      border:2.5px solid var(--ink); border-radius:12px; padding:9px 18px; cursor:pointer; transition:.12s;}
+  .check-btn:hover:not(:disabled){transform:translate(-1px,-1px); box-shadow:var(--shadow-sm);}
+  .check-btn:disabled{opacity:.4; cursor:default;}
+  .mini{font-family:'Fredoka',sans-serif; font-weight:600; font-size:13px; background:var(--card); color:var(--ink);
+      border:2.5px solid var(--ink); border-radius:12px; padding:8px 13px; cursor:pointer; transition:.12s;}
+  .mini:hover{transform:translate(-1px,-1px); box-shadow:var(--shadow-sm);}
+  .q-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+
+  .hint{display:none; margin-top:10px; border:2.5px dashed var(--amber); border-radius:14px; padding:10px 13px;
+      background:var(--hint-bg); color:var(--hint-fg); font-weight:800; font-size:13.5px; line-height:1.5;}
+  .hint.show{display:block;}
+  .hint .letters{font-family:'Fredoka',sans-serif; font-size:16px; letter-spacing:.22em;}
+
+  .why{display:none; margin-top:12px; border-radius:14px; padding:11px 14px; font-size:13.5px; font-weight:800; line-height:1.5; border:2.5px solid var(--ink);}
+  .why.good-why{display:block; background:var(--good-bg); color:var(--good-fg);}
+  .why.bad-why{display:block; background:var(--bad-bg); color:var(--bad-fg);}
+  .why .ans{font-family:'Fredoka',sans-serif;}
+  .badge{position:absolute; top:-14px; right:14px; font-family:'Fredoka',sans-serif; font-weight:600; font-size:12.5px;
+      padding:4px 12px; border-radius:16px; border:2.5px solid var(--ink); color:#fff; animation:badgeIn .3s cubic-bezier(.4,1.8,.6,1);}
+  .badge.ok{background:var(--green);} .badge.no{background:var(--red);} .badge.near{background:var(--amber);}
+  @keyframes badgeIn{from{transform:scale(0);}to{transform:scale(1);}}
+
+  .empty-note{background:var(--card); border:3px dashed var(--ink); border-radius:20px; padding:22px; text-align:center;
+      font-weight:800; color:var(--muted); margin-top:24px;}
+  .empty-note.hidden{display:none;}
+
+  /* ---------- Flashcards ---------- */
+  .deck{background:var(--card); border:3px solid var(--ink); border-radius:20px; box-shadow:var(--shadow); padding:18px; text-align:center;}
+  .deck-card{border:3px solid var(--ink); border-radius:18px; background:var(--soft); padding:26px 18px; cursor:pointer; min-height:170px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;}
+  .deck-word{font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(26px,6vw,38px);}
+  .deck-pos{font-size:11px; font-weight:900; color:#fff; background:var(--teal); border-radius:10px; padding:2px 10px;}
+  .deck-def{font-weight:800; font-size:15px; color:var(--muted); max-width:46ch; line-height:1.5;}
+  .deck-ex{font-weight:700; font-size:13.5px; color:var(--muted2); max-width:52ch; line-height:1.5;}
+  .deck-ex b{color:var(--purple);}
+  .deck-flip{font-size:12px; font-weight:900; color:var(--muted2);}
+  .deck-actions{display:flex; gap:9px; justify-content:center; flex-wrap:wrap; margin-top:14px;}
+  .deck-status{font-weight:900; font-size:13px; color:var(--muted); margin-top:10px;}
+
+  /* ---------- Writing ---------- */
+  .wr{background:var(--card); border:3px solid var(--ink); border-radius:20px; box-shadow:var(--shadow); padding:16px; margin-bottom:16px; border-left:8px solid var(--green);}
+  .wr h3{font-family:'Fredoka',sans-serif; font-weight:600; font-size:18px; margin:0 0 6px;}
+  .wr p.task{font-weight:700; font-size:14px; line-height:1.6; color:var(--muted); margin:0 0 6px;}
+  .wr p.need{font-weight:900; font-size:12.5px; color:var(--purple); margin:0 0 10px;}
+  .wr textarea{width:100%; min-height:170px; resize:vertical; font-family:'Nunito',sans-serif; font-weight:700; font-size:14.5px;
+      line-height:1.6; color:var(--ink); background:var(--soft); border:2.5px solid var(--ink); border-radius:14px; padding:12px 14px; outline:none;}
+  .wr textarea:focus{background:var(--card); box-shadow:var(--shadow-sm);}
+  .wr-meta{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:10px; font-weight:900; font-size:12.5px; color:var(--muted);}
+  .chips{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;}
+  .chip{font-size:11.5px; font-weight:900; border:2px solid var(--ink); border-radius:12px; padding:2px 9px; background:var(--track); color:var(--muted);}
+  .chip.used{background:var(--green); color:#fff;}
+
+  /* ---------- Pronunciation ---------- */
+  .spk{font-family:'Nunito',sans-serif; font-weight:900; font-size:13px; line-height:1; background:var(--card); color:var(--ink);
+      border:2.5px solid var(--ink); border-radius:11px; padding:6px 9px; cursor:pointer; transition:.12s;}
+  .spk:hover{transform:translate(-1px,-1px); box-shadow:var(--shadow-sm);}
+  .spk.speaking{background:var(--teal); color:#fff;}
+  .bank-top{display:flex; align-items:center; gap:7px;}
+  .bank-top b{flex:1;}
+  .deck-sound{display:flex; gap:8px; justify-content:center; margin-top:4px;}
+  body.no-speech .spk, body.no-speech .sound-tool, body.no-speech .deck-sound{display:none !important;}
+
+  /* ---------- Answer key ---------- */
+  .key-grid{padding:0 18px 18px; font-size:13.5px; font-weight:800; line-height:2.1;}
+  .key-grid b{font-family:'Fredoka',sans-serif; color:var(--purple);}
+  .key-col{margin-bottom:8px;}
+
+  footer{text-align:center; font-weight:800; font-size:12px; color:var(--muted2); margin-top:36px; line-height:1.8;}
+
+  /* ---------- Victory overlay ---------- */
+  #victory{position:fixed; inset:0; background:rgba(21,19,44,.6); display:none; align-items:center; justify-content:center; z-index:100; padding:20px;}
+  #victory.show{display:flex;}
+  .v-card{background:var(--card); border:3px solid var(--ink); border-radius:26px; box-shadow:8px 8px 0 var(--ink);
+      max-width:440px; width:100%; padding:30px 26px; text-align:center; animation:cardIn .4s ease; position:relative; overflow:hidden;}
+  @keyframes cardIn{from{opacity:0; transform:translateY(20px) scale(.95);}to{opacity:1; transform:none;}}
+  .v-card h2{font-family:'Fredoka',sans-serif; font-size:30px; margin:6px 0;}
+  .v-card p{font-weight:800; color:var(--muted);}
+  .v-emoji{font-size:52px;}
+  .v-actions{display:flex; gap:9px; justify-content:center; flex-wrap:wrap; margin-top:16px;}
+  .v-close{font-family:'Fredoka',sans-serif; font-size:15px; background:var(--purple); color:#fff;
+      border:2.5px solid var(--ink); border-radius:14px; padding:10px 24px; cursor:pointer; box-shadow:var(--shadow-sm);}
+  .confetti{position:absolute; font-size:26px; animation:fall 2.6s linear infinite; top:-40px; pointer-events:none;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(360deg);}}
+
+  .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
+
+  /* ---------- Print ---------- */
+  @media print{
+    body{background:#fff; padding:0;}
+    .scoreboard,.tabs,.q-actions,.check-btn,.fill-row button,.deck,.sec-head .pill,.bank-search,.tool{display:none !important;}
+    .q,.panel,.bank-item{box-shadow:none; break-inside:avoid; page-break-inside:avoid;}
+    .fill-row input{border-bottom:2px solid #000; border-radius:0; border-top:none; border-left:none; border-right:none; min-width:220px;}
+    details.panel{page-break-before:auto;}
+    #sec-cards{display:none !important;}
+    .spk,.sound-tool{display:none !important;}
+    .chips,.wr-meta{display:none !important;}
+    .wr textarea{min-height:220px; background:#fff;}
+    .why,.hint{display:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">🎮 Vocabulary Quest · Grade 11 · Unit 1</div>
+    <h1>Level Up Your Words</h1>
+    <p class="sub">Sixty questions on the twenty Unit 1 words — choosing the right word, synonyms, antonyms and completing the sentence — plus the two Words in Action writing tasks. Every answer is checked as you go, with a hint whenever you need one.</p>
+  </header>
+
+  <div class="scoreboard">
+    <span class="stat" id="stDone">0 of 60 answered</span>
+    <div class="bigbar"><span id="bigFill"></span></div>
+    <span class="stat" id="stAcc">First-try score —</span>
+    <div class="toolbar">
+      <button class="tool" id="btnWrong" aria-pressed="false" onclick="toggleWrongOnly()">Review my misses</button>
+      <button class="tool" id="btnShuffle" aria-pressed="false" onclick="toggleShuffle()">Shuffle order</button>
+      <button class="tool sound-tool" id="btnSound" aria-pressed="true" onclick="toggleSound()">🔊 Sound on</button>
+      <button class="tool sound-tool" id="btnSlow" aria-pressed="false" onclick="toggleSlow()">🐇 Normal speed</button>
+      <button class="tool" onclick="window.print()">Print worksheet</button>
+      <button class="tool" id="btnTheme" onclick="toggleTheme()">Dark mode</button>
+      <button class="tool" onclick="resetAll()">Start over</button>
+    </div>
+  </div>
+
+  <p class="sr-only" id="live" role="status" aria-live="polite"></p>
+
+  <div class="tabs" id="tabs"></div>
+
+  <details class="panel bank">
+    <summary>Word bank — the 20 words of Unit 1</summary>
+    <input class="bank-search" id="bankSearch" type="search" placeholder="Search a word or a meaning…" autocomplete="off" oninput="filterBank(this.value)">
+    <div class="bank-grid" id="bankGrid"></div>
+    <p class="bank-empty hidden" id="bankEmpty">No word matches that search.</p>
+  </details>
+
+  <div id="sections"></div>
+  <p class="empty-note hidden" id="emptyNote">Nothing to review here — every question you've answered so far was right. Turn off <b>Review my misses</b> to see them all again.</p>
+
+  <section class="sec" id="sec-cards">
+    <div class="sec-head"><span class="sec-emoji">🃏</span><h2>Flashcard drill</h2></div>
+    <p class="sec-desc">Tap the card to see the meaning and an example. Words you mark as <i>still learning</i> come back around before the deck ends.</p>
+    <div class="deck">
+      <div class="deck-card" id="deckCard" role="button" tabindex="0" onclick="flipCard()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();flipCard();}"></div>
+      <div class="deck-sound">
+        <button class="spk" onclick="sayCard(false,event)" aria-label="Pronounce this word">🔊 Hear the word</button>
+        <button class="spk" onclick="sayCard(true,event)" aria-label="Hear the word and its meaning">💬 Word + meaning</button>
+      </div>
+      <div class="deck-actions">
+        <button class="mini" onclick="markCard(false)">Still learning</button>
+        <button class="mini" onclick="markCard(true)">I know this</button>
+        <button class="mini" onclick="restartDeck()">Reshuffle deck</button>
+      </div>
+      <p class="deck-status" id="deckStatus"></p>
+    </div>
+  </section>
+
+  <section class="sec" id="sec-writing">
+    <div class="sec-head"><span class="sec-emoji">✍️</span><h2>Words in action</h2></div>
+    <p class="sec-desc">Two writing tasks from the booklet. These aren't graded here — type your draft, watch which unit words you've used light up, and copy it out when you're happy with it. Drafts are saved in this browser.</p>
+    <div id="writingCards"></div>
+  </section>
+
+  <details class="panel keybox">
+    <summary>Answer key (open it when you're finished — or stuck)</summary>
+    <div class="key-grid" id="keyGrid"></div>
+  </details>
+
+  <footer>
+    Answer all 60 to finish the quest 🏆<br>
+    Your progress is saved in this browser, so you can close the page and come back.
+  </footer>
+</div>
+
+<div id="victory">
+  <div class="v-card" id="vCard">
+    <div class="v-emoji">🏆</div>
+    <h2>Quest complete</h2>
+    <p id="vText"></p>
+    <div class="v-actions">
+      <button class="v-close" onclick="closeVictory()">Keep reviewing</button>
+      <button class="mini" onclick="closeVictory(); toggleWrongOnly(true);">Show my misses</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   DATA
+   ========================================================= */
+const WORDS = [
+ ["Approbation","noun","the expression of approval or favorable opinion, praise; official approval"],
+ ["Assuage","verb","to make easier or milder, relieve; to calm; to satisfy or quench"],
+ ["Coalition","noun","a combination, union, or merger formed for a specific purpose"],
+ ["Decadence","noun","decline or decay, especially in morals; excessive self-indulgence"],
+ ["Elicit","verb","to draw forth, bring out from some source"],
+ ["Expostulate","verb","to reason earnestly with someone in order to change their course"],
+ ["Hackneyed","adj.","used so often that it has lost all freshness or originality"],
+ ["Hiatus","noun","a gap, opening, or break where something is missing"],
+ ["Innuendo","noun","a hint or indirect suggestion, usually unkind"],
+ ["Intercede","verb","to plead on behalf of someone else; to act as a go-between"],
+ ["Jaded","adj.","worn out or dulled by having had too much of something"],
+ ["Lurid","adj.","causing shock or horror; sensational; glowing with an unnatural light"],
+ ["Meritorious","adj.","worthy, deserving recognition or praise"],
+ ["Petulant","adj.","peevish and bad-tempered, irritated by small things"],
+ ["Prerogative","noun","a special right or privilege that belongs to a person or rank"],
+ ["Provincial","adj.","of an outlying area; narrow in outlook, limited and unsophisticated"],
+ ["Simulate","verb","to pretend, imitate; to show the outer signs of something"],
+ ["Transcend","verb","to rise above or go beyond, exceed"],
+ ["Umbrage","noun","offense or resentment; also, shade cast by trees"],
+ ["Unctuous","adj.","excessively smooth or smug; falsely earnest; oily"]
+];
+
+/* Choosing the Right Word: [sentence, [optionA, optionB], correctIndex, explanation] */
+const CHOICE = [
+ ["I enjoy science-fiction movies, as they provide a short but exciting _____ from the problems of everyday life.",
+  ["umbrage","hiatus"],1,"A hiatus is a gap or break — the movie is a break from daily problems."],
+ ["The magnificence of the scene far _____ my ability to describe it in words.",
+  ["simulated","transcended"],1,"Transcend means to rise above or go beyond — the scene went beyond words."],
+ ["My teacher can _____ some degree of interest and attention from even the most withdrawn children.",
+  ["simulate","elicit"],1,"Elicit means to draw something out of someone — she draws out their interest."],
+ ["The defense attorney quickly realized that the witness's statement was filled with _____, not facts.",
+  ["innuendo","coalition"],0,"Innuendo is indirect suggestion — hints instead of hard facts."],
+ ["His skillful use of academic jargon and fashionable catchphrases could not conceal the essentially _____ quality of his ideas.",
+  ["hackneyed","meritorious"],0,"Hackneyed means stale from overuse — fancy words can't hide tired ideas."],
+ ["At the Senior Prom, my sister and most of her friends were glad that men are no longer expected to take the _____ in choosing dance partners.",
+  ["prerogative","hiatus"],0,"A prerogative is a special right — the right to choose first."],
+ ["Perhaps it will _____ your fright if I remind you that everyone must try something for the first time at some point in his or her life.",
+  ["expostulate","assuage"],1,"Assuage means to soothe or relieve — the reminder calms the fear."],
+ ["How can you accuse me of employing _____ when I am saying in the plainest possible language that I think you're a crook?",
+  ["umbrage","innuendo"],1,"Innuendo is a hint — the opposite of saying something in plain language."],
+ ["The newspaper account of the tragedy was quite sensational and filled with _____ details about the accident.",
+  ["lurid","provincial"],0,"Lurid means shocking and sensational — exactly what a lurid report adds."],
+ ["Who would have thought he would take _____ at an e-mail from a friend who wanted only to help?",
+  ["prerogative","umbrage"],1,"To take umbrage is to take offense."],
+ ["After watching four TV football games on New Year's Day, I was _____ with the pigskin sport for weeks to come.",
+  ["jaded","hackneyed"],0,"Jaded means worn out by too much of something — four games in a day will do it."],
+ ["We cannot know today what sort of accent Abraham Lincoln had, but it may well be that there was a decidedly _____ twang to his speech.",
+  ["meritorious","provincial"],1,"Provincial means belonging to a rural or outlying area — a country twang."],
+ ["Popularity polls seem to be based on the mistaken idea that the basic task of a political leader is to win immediate _____ from the people.",
+  ["approbation","coalition"],0,"Approbation is approval or praise — what polls measure."],
+ ["The most _____ form of charity, according to the ancient Hebrew sages, is to help a poor person to become self-supporting.",
+  ["meritorious","lurid"],0,"Meritorious means deserving praise — the most praiseworthy kind of charity."],
+ ["They try to 'prove' the _____ of modern youth by emphasizing everything that is bad and ignoring whatever is good.",
+  ["umbrage","decadence"],1,"Decadence is moral decline — the accusation being made here."],
+ ["I truly dislike the kind of sensational popular biography that focuses solely on the more _____ or scandalous aspects of a superstar's career.",
+  ["lurid","hackneyed"],0,"Lurid pairs naturally with scandalous — shocking, sensational material."],
+ ["On the air the star seemed calm, but he privately sent _____ notes to those who gave him bad reviews.",
+  ["petulant","jaded"],0,"Petulant means peevish and bad-tempered — sulky notes over bad reviews."],
+ ["When the _____ in the conversation became embarrassingly long, I decided that the time had come to serve the sandwiches.",
+  ["umbrage","hiatus"],1,"A hiatus is a gap or pause — here, an awkward silence."],
+ ["I prefer reading about modest and sympathetic characters rather than those who are contemptuous and _____.",
+  ["lurid","jaded"],1,"Jaded describes a person dulled and world-weary — it fits a character, not a story."],
+ ["The American two-party system almost always makes it unnecessary to form a _____ of minority parties to carry on the government.",
+  ["hiatus","coalition"],1,"A coalition is a union formed for a shared purpose — how small parties govern together."],
+ ["I see no point in _____ with a person who habitually refuses to listen to reason.",
+  ["expostulating","simulating"],0,"To expostulate is to reason earnestly with someone — pointless if they won't listen."],
+ ["Apparently mistaking us for the millionaire's children, the hotel manager overwhelmed us with his _____ attentions.",
+  ["petulant","unctuous"],1,"Unctuous means oily and falsely earnest — the flattering manager."],
+ ["Because she had just received a large bonus, Joan felt it was her _____ to purchase a luxury convertible car.",
+  ["decadence","prerogative"],1,"A prerogative is a privilege one has earned — her right to spend it."],
+ ["To impress her newly made friends, she _____ an interest in modern art, of which she knew nothing.",
+  ["simulated","assuaged"],0,"Simulate means to pretend — she faked the interest."],
+ ["If you try to _____ in a friends' quarrel, you will only make things worse.",
+  ["elicit","intercede"],1,"Intercede means to step in on someone's behalf, as a go-between."]
+];
+
+/* Synonyms and Antonyms: [phrase with the target in **asterisks**, answer, note] */
+const SYN = [
+ ["a lifestyle of **intemperance**","decadence","decline through excessive self-indulgence"],
+ ["an **implication** not supported by fact","innuendo","a hint or indirect suggestion"],
+ ["**depleted** by too much networking","jaded","worn out by having had too much"],
+ ["impolite and **snappish** attitude","petulant","peevish and bad-tempered"],
+ ["a **benefit** of her rank","prerogative","a special right or privilege"],
+ ["exploding in **annoyance**","umbrage","offense, resentment"],
+ ["unceasing and **servile** modesty","unctuous","excessively smooth, falsely earnest"],
+ ["**feign** a reconciliation","simulate","to pretend, to imitate"],
+ ["**alleviate** his worst fears","assuage","to soothe, relieve, calm"],
+ ["seeking the boss's **commendation**","approbation","approval, praise"]
+];
+
+const ANT = [
+ ["living a life of sacrifice and **self-denial**","decadence","self-indulgent decline — the opposite of self-denial"],
+ ["**genuinely express** joy over a coworker's promotion","simulate","to pretend a feeling — the opposite of expressing it genuinely"],
+ ["such a **sedate** and self-controlled child","petulant","peevish and irritable — the opposite of sedate"],
+ ["a record of **discreditable** actions","meritorious","deserving praise — the opposite of discreditable"],
+ ["a lawyer who offers **incontestable proof**","innuendo","mere hints — the opposite of proof that cannot be disputed"]
+];
+
+/* Completing the Sentence: [sentence, [accepted answers], meaning] */
+const COMPLETE = [
+ ["In an age when the United States has truly global responsibilities, we cannot afford to have leaders with _____ points of view.",
+  ["provincial"],"narrow and limited in outlook"],
+ ["I take no _____ at your personal remarks, but I feel you would have been better advised not to make them.",
+  ["umbrage"],"offense, resentment"],
+ ["Forever humbling himself and flattering others, Dickens's Uriah Heep is famously _____.",
+  ["unctuous"],"excessively smooth and falsely earnest"],
+ ["During the brief _____ in the music, someone's ringing cell phone split the air.",
+  ["hiatus"],"a gap or pause"],
+ ["If you cannot meet the college's entrance requirements, it will be futile to have someone _____ on your behalf.",
+  ["intercede"],"plead for you, act as a go-between"],
+ ["Weakened militarily, and with a large part of the population living on free 'bread and circuses,' the once mighty Roman Empire now entered a period of _____.",
+  ["decadence"],"decline and decay"],
+ ["The midnight fire in our apartment building cast a(n) _____, unearthly light on the faces of the firefighters struggling to put it out.",
+  ["lurid"],"glowing with an unnatural, shocking light"],
+ ["The manager expressed her unfavorable opinion of the job applicant by _____ rather than by direct statement.",
+  ["innuendo","innuendos","innuendoes"],"indirect hints"],
+ ["The issue of good faith that your conduct raises far _____ the specific question of whether or not you are responsible for the problem.",
+  ["transcends","transcend"],"rises above, goes beyond"],
+ ["If you take pride in expressing yourself with force and originality, you should not use so many _____ phrases.",
+  ["hackneyed"],"stale from overuse"],
+ ["I certainly appreciate your praise, but I must say that I can see nothing so remarkably _____ in having done what any decent person would do.",
+  ["meritorious"],"deserving of praise"],
+ ["His confidence grew as he received clear signs of the _____ of his superiors.",
+  ["approbation"],"approval, praise"],
+ ["I feel that, as an old friend, I have the _____ of criticizing your actions without arousing resentment.",
+  ["prerogative"],"a special right or privilege"],
+ ["Various insects have a marvelous capacity to protect themselves by _____ the appearance of twigs and other objects in their environment.",
+  ["simulating","simulate"],"imitating, taking on the look of"],
+ ["Of course you have a right to ask the waiter for a glass of water, but is there any need to use the _____ tone of a spoiled child?",
+  ["petulant"],"peevish, bad-tempered"],
+ ["The only way to defeat the party in power is for all the reform groups to form a(n) _____ and back a single slate of candidates.",
+  ["coalition"],"a union formed for a shared purpose"],
+ ["Since I don't like people who play favorites in the office, I have frequently _____ against such behavior with my superiors.",
+  ["expostulated","expostulate"],"reasoned earnestly in protest"],
+ ["Although we tried to express our sympathy, we knew that mere words could do nothing to _____ her grief.",
+  ["assuage"],"soothe, relieve"],
+ ["In the question-and-answer session, we tried to _____ from the candidates some definite indication of how they proposed to reduce the national debt.",
+  ["elicit"],"draw out, bring forth"],
+ ["Their tastes have been so _____ by luxurious living that they seem incapable of enjoying the simple pleasures of life.",
+  ["jaded"],"dulled by having had too much"]
+];
+
+/* Writing: Words in Action — not scored, drafts are saved */
+const WRITING = [
+ ["Letter: Mathew Brady to the federal officials",
+  "Look back at \u201cThe Camera in Wartime\u201d (pages 12\u201313). Imagine that you are Mathew Brady, trying to convince federal officials to purchase prints of the thousands of photographs that you have taken of the Civil War. Write a letter to government officials, persuading them of the historical merit of your work, and explain why your photographs should become part of a national archive.",
+  "At least two details from the passage and three unit words."],
+ ["Essay: the stark reality of war at home",
+  "Civil War photographers were able to record only the disturbing aftermath of war. Today, journalists can provide not only photographs but also live video of battles. What are the drawbacks to or benefits of having the stark reality of war brought into people\u2019s homes? Write an essay in which you support your opinion with your own observations, studies, personal experience, and the reading (pages 12\u201313).",
+  "At least three paragraphs and three or more unit words."]
+];
+
+const SECTIONS = [
+ {id:"choice", cls:0, kind:"choice", emoji:"⚖️", name:"Choosing the right word", data:CHOICE, accent:"var(--coral)",
+  desc:"Pick the word that fits the sentence better. One tap locks in your answer and explains why."},
+ {id:"syn", cls:1, kind:"phrase", emoji:"🤝", name:"Synonyms", data:SYN, accent:"var(--teal)",
+  lead:"Which Unit 1 word means the same as",
+  desc:"Type the Unit 1 word that means the same as the bold expression."},
+ {id:"ant", cls:2, kind:"phrase", emoji:"⚡", name:"Antonyms", data:ANT, accent:"var(--purple)",
+  lead:"Which Unit 1 word is the opposite of",
+  desc:"Type the Unit 1 word that means the opposite of the bold expression."},
+ {id:"complete", cls:3, kind:"fill", emoji:"✏️", name:"Completing the sentence", data:COMPLETE, accent:"var(--amber)",
+  desc:"Type the Unit 1 word that best completes each sentence. Any correct form of the word is accepted."}
+];
+SECTIONS.forEach(s=>{ s.count = s.data.length; });
+const TOTAL = SECTIONS.reduce((n,s)=>n+s.count,0);
+const STORE_KEY = 'vocab-quest-g11-unit1';
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function bold(t){ return esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>'); }
+function sentenceWithBlank(s){ return esc(s).replace("_____", '<span class="blank">_____</span>'); }
+function norm(s){ return String(s).toLowerCase().replace(/[^a-z]/g,''); }
+function mq(query){ try{ return !!(window.matchMedia && window.matchMedia(query).matches); }catch(e){ return false; } }
+function shuffled(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+/* one slip of the finger — a wrong, missing, extra or swapped letter — still counts */
+function nearMiss(a,b){
+  if(a===b) return false;
+  if(Math.abs(a.length-b.length)>1) return false;
+  const m=a.length, n=b.length;
+  let prev2=null, prev=new Array(n+1).fill(0).map((_,j)=>j), cur;
+  for(let i=1;i<=m;i++){
+    cur=new Array(n+1); cur[0]=i;
+    for(let j=1;j<=n;j++){
+      cur[j]=Math.min(prev[j]+1, cur[j-1]+1, prev[j-1]+(a[i-1]===b[j-1]?0:1));
+      if(i>1 && j>1 && a[i-1]===b[j-2] && a[i-2]===b[j-1]) cur[j]=Math.min(cur[j], prev2[j-2]+1);
+    }
+    prev2=prev; prev=cur;
+  }
+  return prev[n]===1;
+}
+
+function answersFor(sec,i){
+  const q = sec.data[i];
+  if(sec.kind==='choice') return [q[1][q[2]]];
+  if(sec.kind==='phrase') return [q[1]];
+  return q[1];
+}
+function noteFor(sec,i){
+  const q = sec.data[i];
+  if(sec.kind==='choice') return q[3];
+  if(sec.kind==='syn') return q[2];
+  return q[2];
+}
+
+/* =========================================================
+   STATE
+   ========================================================= */
+let state = {choice:{}, syn:{}, ant:{}, complete:{}};
+let order  = {};            // display order per section
+let celebrated = false;
+let wrongOnly  = false;
+let shuffleOn  = false;
+
+function blankOrder(){ SECTIONS.forEach(s=> order[s.id] = s.data.map((_,i)=>i) ); }
+blankOrder();
+
+function save(){
+  try{
+    localStorage.setItem(STORE_KEY, JSON.stringify({
+      v:2, state, shuffleOn, celebrated, deck:{known:deckKnown}
+    }));
+  }catch(e){ /* storage unavailable — the page still works, just without saving */ }
+}
+function load(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return;
+    const d = JSON.parse(raw);
+    if(d && d.state){
+      SECTIONS.forEach(s=>{ if(d.state[s.id]) state[s.id] = d.state[s.id]; });
+      shuffleOn  = !!d.shuffleOn;
+      celebrated = !!d.celebrated;
+      if(d.deck && Array.isArray(d.deck.known)) deckKnown = d.deck.known;
+    }
+  }catch(e){ /* ignore a corrupt or blocked store */ }
+}
+
+/* =========================================================
+   RENDERING
+   ========================================================= */
+function renderTabs(){
+  const t = document.getElementById('tabs');
+  t.innerHTML='';
+  SECTIONS.forEach(s=>{
+    const done = Object.values(state[s.id]).filter(a=>a&&a.done).length;
+    const b = document.createElement('button');
+    b.className = 'tab c'+s.cls + (done===s.count?' done':'');
+    b.onclick = ()=>document.getElementById('sec-'+s.id).scrollIntoView({behavior:'smooth', block:'start'});
+    b.innerHTML = `<span class="t-name">${s.emoji} ${esc(s.name)}</span>
+      <span class="t-count">${done}/${s.count} answered</span>
+      <div class="t-bar"><span style="width:${(done/s.count)*100}%"></span></div>`;
+    t.appendChild(b);
+  });
+  const c = document.createElement('button');
+  c.className = 'tab c4';
+  c.onclick = ()=>document.getElementById('sec-cards').scrollIntoView({behavior:'smooth', block:'start'});
+  c.innerHTML = `<span class="t-name">🃏 Flashcard drill</span>
+    <span class="t-count">${deckKnown.length}/${WORDS.length} marked known</span>
+    <div class="t-bar"><span style="width:${(deckKnown.length/WORDS.length)*100}%; background:var(--green)"></span></div>`;
+  t.appendChild(c);
+  const wtab = document.createElement('button');
+  wtab.className = 'tab c4';
+  wtab.onclick = ()=>document.getElementById('sec-writing').scrollIntoView({behavior:'smooth', block:'start'});
+  wtab.innerHTML = `<span class="t-name">✍️ Words in action</span>
+    <span class="t-count">2 writing tasks</span>
+    <div class="t-bar"><span style="width:0%"></span></div>`;
+  t.appendChild(wtab);
+}
+
+function renderBank(){
+  document.getElementById('bankGrid').innerHTML = WORDS.map((w,i)=>
+    `<div class="bank-item" data-i="${i}">
+       <div class="bank-top"><b>${esc(w[0])}</b><span class="pos">${esc(w[1])}</span>
+         <button class="spk" onclick="sayWord(${i},event)" aria-label="Pronounce ${esc(w[0])}">🔊</button></div>
+       <p>${esc(w[2])}</p></div>`).join('');
+}
+
+function filterBank(term){
+  const q = norm(term);
+  let shown = 0;
+  document.querySelectorAll('.bank-item').forEach(el=>{
+    const w = WORDS[+el.dataset.i];
+    const hay = norm(w[0]+w[2]);
+    const hit = !q || hay.includes(q);
+    el.classList.toggle('hide', !hit);
+    if(hit) shown++;
+  });
+  document.getElementById('bankEmpty').classList.toggle('hidden', shown>0);
+}
+
+function questionHTML(sec, i, displayNum){
+  const q = sec.data[i];
+  const st = state[sec.id][i] || {};
+  let promptHTML, controls;
+
+  if(sec.kind==='choice'){
+    promptHTML = sentenceWithBlank(q[0]);
+    controls = `<div class="opts">` + q[1].map((o,oi)=>
+      `<button class="opt" id="opt-${sec.id}-${i}-${oi}" onclick="pickChoice(${i},${oi})"><span class="key">${oi===0?'A':'B'}</span>${esc(o)}</button>`
+    ).join('') + `</div>`;
+  }else{
+    promptHTML = sec.kind==='phrase'
+      ? `${esc(sec.lead)} ${bold(q[0])}?`
+      : sentenceWithBlank(q[0]);
+    controls = `<div class="fill-row">
+        <input id="in-${sec.id}-${i}" placeholder="Type the word" autocomplete="off" autocapitalize="off" spellcheck="false"
+               aria-label="Your answer for question ${displayNum}"
+               onkeydown="if(event.key==='Enter')checkFill('${sec.id}',${i})">
+        <button class="check-btn" id="btn-${sec.id}-${i}" onclick="checkFill('${sec.id}',${i})">Check</button>
+      </div>`;
+  }
+
+  return `<div class="q t${sec.cls}" id="q-${sec.id}-${i}" data-sec="${sec.id}" data-i="${i}">
+    <span class="num">${displayNum}</span>
+    <p class="q-sentence">${promptHTML}</p>
+    ${controls}
+    <div class="q-actions">${listenBtn(sec.id,i)}<button class="mini" id="hintbtn-${sec.id}-${i}" onclick="showHint('${sec.id}',${i})">Hint</button></div>
+    <div class="hint" id="hint-${sec.id}-${i}"></div>
+    <div class="why" id="why-${sec.id}-${i}" role="status"></div>
+  </div>`;
+}
+
+function renderSections(){
+  const host = document.getElementById('sections');
+  host.innerHTML = SECTIONS.map(s=>{
+    const body = order[s.id].map((i,pos)=>questionHTML(s, i, shuffleOn ? `${pos+1} · #${i+1}` : (i+1))).join('');
+    return `<section class="sec" id="sec-${s.id}">
+      <div class="sec-head"><span class="sec-emoji">${s.emoji}</span><h2>${esc(s.name)}</h2>
+        <span class="pill" style="background:${s.accent}">${s.count} questions</span>
+        <span class="done-pill" id="done-${s.id}">✔ all answered</span></div>
+      <p class="sec-desc">${esc(s.desc)}</p>
+      ${body}
+    </section>`;
+  }).join('');
+
+  /* repaint anything already answered */
+  SECTIONS.forEach(s=>{
+    Object.keys(state[s.id]).forEach(k=>{
+      const i = +k, st = state[s.id][i];
+      if(st && st.hint) paintHint(s.id, i);
+      if(st && st.done) paint(s.id, i, st);
+    });
+  });
+  applyFilter();
+}
+
+function renderKey(){
+  const line = (s)=> s.data.map((q,i)=>`<b>${i+1}.</b> ${esc(answersFor(s,i)[0])}`).join(' &nbsp; ');
+  document.getElementById('keyGrid').innerHTML = SECTIONS.map(s=>
+    `<div class="key-col">${s.emoji} <b>${esc(s.name)}:</b><br>${line(s)}</div>`).join('');
+}
+
+/* =========================================================
+   ANSWERING
+   ========================================================= */
+function grade(sec, i, given){
+  const answers = answersFor(sec,i).map(norm);
+  if(sec.kind==='choice'){
+    return {correct: given===sec.data[i][2], near:false};
+  }
+  const v = norm(given);
+  if(answers.includes(v)) return {correct:true, near:false};
+  const near = v.length>=4 && answers.some(a=>nearMiss(v,a));
+  return {correct:near, near};
+}
+
+function pickChoice(i, oi){ answer('choice', i, oi); }
+
+function checkFill(secId, i){
+  const inp = document.getElementById(`in-${secId}-${i}`);
+  if(!inp || inp.disabled) return;
+  if(!inp.value.trim()){ inp.focus(); return; }
+  answer(secId, i, inp.value.trim());
+}
+
+function answer(secId, i, given){
+  const sec = SECTIONS.find(s=>s.id===secId);
+  const prev = state[secId][i];
+  if(prev && prev.done) return;
+  const {correct, near} = grade(sec, i, given);
+  const attempts = (prev && prev.attempts ? prev.attempts : 0) + 1;
+  const st = {
+    done:true, correct, near, given,
+    attempts,
+    first: (prev && prev.attempts) ? prev.first : correct,
+    hint: !!(prev && prev.hint)
+  };
+  state[secId][i] = st;
+  paint(secId, i, st);
+  announce(sec, i, st);
+  save();
+  update();
+}
+
+function paint(secId, i, st){
+  const sec = SECTIONS.find(s=>s.id===secId);
+  const box = document.getElementById(`q-${secId}-${i}`);
+  if(!box) return;
+  const answerWord = answersFor(sec,i)[0];
+
+  if(sec.kind==='choice'){
+    const correctIdx = sec.data[i][2];
+    sec.data[i][1].forEach((_,x)=>{
+      const b = document.getElementById(`opt-${secId}-${i}-${x}`);
+      if(!b) return;
+      b.disabled = true;
+      b.classList.remove('good','bad','reveal');
+      if(x===correctIdx) b.classList.add(st.correct ? 'good' : 'reveal');
+      else if(x===st.given) b.classList.add('bad');
+    });
+  }else{
+    const inp = document.getElementById(`in-${secId}-${i}`);
+    if(inp){ inp.value = st.given; inp.disabled = true; inp.classList.add(st.correct?'good':'bad'); }
+    const btn = document.getElementById(`btn-${secId}-${i}`);
+    if(btn) btn.disabled = true;
+  }
+
+  const blank = box.querySelector('.blank');
+  if(blank){ blank.textContent = answerWord; blank.classList.add(st.correct?'filled-good':'filled-bad'); }
+
+  const why = document.getElementById(`why-${secId}-${i}`);
+  why.className = 'why ' + (st.correct ? 'good-why' : 'bad-why');
+  const note = noteFor(sec,i);
+  let head;
+  if(st.correct && st.near) head = `Close enough — the spelling is <span class="ans">${esc(answerWord)}</span>.`;
+  else if(st.correct)       head = `Correct: <span class="ans">${esc(answerWord)}</span>.`;
+  else                      head = `The answer is <span class="ans">${esc(answerWord)}</span>.`;
+  why.innerHTML = `${st.correct?'✅':'❌'} ${head} ${esc(note)}${/[.!?]$/.test(note)?'':'.'}`;
+
+  box.querySelectorAll('.badge').forEach(b=>b.remove());
+  const label = st.correct ? (st.near ? '✍️ Spelling' : '🎉 Right') : '💥 Not this time';
+  box.insertAdjacentHTML('beforeend', `<span class="badge ${st.correct?(st.near?'near':'ok'):'no'}">${label}</span>`);
+
+  const actions = box.querySelector('.q-actions');
+  actions.innerHTML = listenBtn(secId,i) +
+    (st.correct ? '' : `<button class="mini" onclick="retry('${secId}',${i})">Try this one again</button>`);
+  const hintBtn = document.getElementById(`hintbtn-${secId}-${i}`);
+  if(hintBtn) hintBtn.remove();
+  box.dataset.status = st.correct ? 'right' : 'wrong';
+}
+
+function retry(secId, i){
+  const st = state[secId][i];
+  if(!st) return;
+  state[secId][i] = {done:false, attempts:st.attempts, first:st.first, hint:st.hint};
+  const sec = SECTIONS.find(s=>s.id===secId);
+  const pos = order[secId].indexOf(i);
+  const html = questionHTML(sec, i, shuffleOn ? `${pos+1} · #${i+1}` : (i+1));
+  const box = document.getElementById(`q-${secId}-${i}`);
+  box.outerHTML = html;
+  if(state[secId][i].hint) paintHint(secId, i);
+  const inp = document.getElementById(`in-${secId}-${i}`);
+  if(inp) inp.focus();
+  save();
+  update();
+}
+
+function showHint(secId, i){
+  const st = state[secId][i] || {};
+  state[secId][i] = Object.assign({done:false, attempts:0}, st, {hint:true});
+  paintHint(secId, i);
+  save();
+  update();
+}
+
+function paintHint(secId, i){
+  const sec = SECTIONS.find(s=>s.id===secId);
+  const el = document.getElementById(`hint-${secId}-${i}`);
+  if(!el) return;
+  const word = answersFor(sec,i)[0];
+  const skeleton = word.split('').map((ch,idx)=> idx===0 ? ch.toUpperCase() : '_').join(' ');
+  const stem = norm(word).slice(0,5);
+  const entry = WORDS.find(w=>{ const k=norm(w[0]); return k===norm(word) || k.startsWith(stem) || norm(word).startsWith(k.slice(0,5)); });
+  const meaning = entry ? entry[2] : '';
+  let extra = '';
+  if(sec.kind==='choice'){
+    extra = 'Read the sentence again and ask which word the situation is really describing.';
+  }else if(meaning){
+    extra = `It means: ${meaning}.`;
+  }
+  el.innerHTML = `💡 <span class="letters">${esc(skeleton)}</span> — ${word.length} letters. ${esc(extra)}`;
+  el.classList.add('show');
+  const btn = document.getElementById(`hintbtn-${secId}-${i}`);
+  if(btn) btn.remove();
+}
+
+function announce(sec, i, st){
+  const word = answersFor(sec,i)[0];
+  document.getElementById('live').textContent =
+    st.correct ? `Correct. The answer is ${word}.` : `Not quite. The answer is ${word}.`;
+}
+
+/* =========================================================
+   SCOREBOARD, FILTERS, DECK
+   ========================================================= */
+function update(){
+  let answered=0, firstRight=0, hints=0;
+  SECTIONS.forEach(s=>{
+    let a=0;
+    Object.values(state[s.id]).forEach(x=>{
+      if(x && x.hint) hints++;
+      if(x && x.done){ a++; if(x.first) firstRight++; }
+    });
+    answered+=a;
+    const dp = document.getElementById('done-'+s.id);
+    if(dp) dp.style.display = (a===s.count) ? 'inline' : 'none';
+  });
+  document.getElementById('stDone').textContent = `${answered} of ${TOTAL} answered`;
+  document.getElementById('bigFill').style.width = (answered/TOTAL*100)+'%';
+  document.getElementById('stAcc').textContent = answered
+    ? `First-try score ${Math.round(firstRight/answered*100)}%` + (hints?` · ${hints} hint${hints>1?'s':''}`:'')
+    : 'First-try score —';
+  renderTabs();
+  if(wrongOnly) applyFilter();
+  if(answered===TOTAL && !celebrated){ celebrated=true; save(); showVictory(firstRight, TOTAL); }
+}
+
+function applyFilter(){
+  let visible = 0;
+  SECTIONS.forEach(s=>{
+    let shown = 0;
+    order[s.id].forEach(i=>{
+      const box = document.getElementById(`q-${s.id}-${i}`);
+      if(!box) return;
+      const st = state[s.id][i];
+      const isWrong = st && st.done && !st.correct;
+      const show = !wrongOnly || isWrong;
+      box.classList.toggle('hidden', !show);
+      if(show) shown++;
+    });
+    const sec = document.getElementById('sec-'+s.id);
+    if(sec) sec.classList.toggle('hidden', wrongOnly && shown===0);
+    visible += shown;
+  });
+  document.getElementById('emptyNote').classList.toggle('hidden', !(wrongOnly && visible===0));
+  document.getElementById('sec-cards').classList.toggle('hidden', wrongOnly);
+  document.getElementById('sec-writing').classList.toggle('hidden', wrongOnly);
+}
+
+function toggleWrongOnly(force){
+  wrongOnly = (typeof force==='boolean') ? force : !wrongOnly;
+  const b = document.getElementById('btnWrong');
+  b.setAttribute('aria-pressed', String(wrongOnly));
+  b.textContent = wrongOnly ? 'Show all questions' : 'Review my misses';
+  applyFilter();
+  const top = document.getElementById('sections');
+  if(wrongOnly && top && top.scrollIntoView) top.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function toggleShuffle(){
+  shuffleOn = !shuffleOn;
+  const b = document.getElementById('btnShuffle');
+  b.setAttribute('aria-pressed', String(shuffleOn));
+  b.textContent = shuffleOn ? 'Workbook order' : 'Shuffle order';
+  SECTIONS.forEach(s=>{ order[s.id] = shuffleOn ? shuffled(s.data.map((_,i)=>i)) : s.data.map((_,i)=>i); });
+  renderSections();
+  save();
+  update();
+}
+
+function toggleTheme(){
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme')==='dark'
+    || (!root.getAttribute('data-theme') && mq('(prefers-color-scheme: dark)'));
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('btnTheme').textContent = isDark ? 'Dark mode' : 'Light mode';
+  try{ localStorage.setItem(STORE_KEY+'-theme', root.getAttribute('data-theme')); }catch(e){}
+}
+
+function initTheme(){
+  let saved = null;
+  try{ saved = localStorage.getItem(STORE_KEY+'-theme'); }catch(e){}
+  if(saved) document.documentElement.setAttribute('data-theme', saved);
+  const dark = document.documentElement.getAttribute('data-theme')==='dark'
+    || (!saved && mq('(prefers-color-scheme: dark)'));
+  document.getElementById('btnTheme').textContent = dark ? 'Light mode' : 'Dark mode';
+}
+
+/* ---------- Flashcards ---------- */
+let deckKnown = [];
+let deckQueue = [];
+let deckFlipped = false;
+
+function exampleFor(word){
+  const q = COMPLETE.find(c => c[1].some(a => a.toLowerCase().startsWith(word.slice(0,5).toLowerCase())));
+  if(!q) return '';
+  const form = q[1].find(a => a.toLowerCase().startsWith(word.slice(0,5).toLowerCase()));
+  return esc(q[0]).replace('_____', '<b>'+esc(form)+'</b>');
+}
+
+function buildDeck(){
+  deckQueue = shuffled(WORDS.map((_,i)=>i).filter(i=>!deckKnown.includes(i)));
+  deckFlipped = false;
+}
+
+function renderCard(){
+  const card = document.getElementById('deckCard');
+  const status = document.getElementById('deckStatus');
+  if(deckQueue.length===0){
+    card.innerHTML = `<div class="deck-word">Deck cleared</div>
+      <p class="deck-def">You've marked all 20 words as known. Reshuffle to run through them again.</p>`;
+    status.textContent = `${deckKnown.length} of ${WORDS.length} marked known`;
+    return;
+  }
+  const w = WORDS[deckQueue[0]];
+  card.innerHTML = deckFlipped
+    ? `<div class="deck-word">${esc(w[0])}</div>
+       <span class="deck-pos">${esc(w[1])}</span>
+       <p class="deck-def">${esc(w[2])}</p>
+       <p class="deck-ex">${exampleFor(w[0])}</p>`
+    : `<div class="deck-word">${esc(w[0])}</div>
+       <span class="deck-pos">${esc(w[1])}</span>
+       <p class="deck-flip">Tap to see the meaning</p>`;
+  status.textContent = `${deckQueue.length} card${deckQueue.length>1?'s':''} left · ${deckKnown.length} of ${WORDS.length} marked known`;
+}
+
+function flipCard(){ if(deckQueue.length){ deckFlipped = !deckFlipped; renderCard(); } }
+
+function markCard(known){
+  if(!deckQueue.length) return;
+  const idx = deckQueue.shift();
+  if(known){
+    if(!deckKnown.includes(idx)) deckKnown.push(idx);
+  }else{
+    deckKnown = deckKnown.filter(k=>k!==idx);
+    const back = Math.min(3, deckQueue.length);
+    deckQueue.splice(back, 0, idx);
+  }
+  deckFlipped = false;
+  renderCard();
+  renderTabs();
+  save();
+}
+
+function restartDeck(){ buildDeck(); renderCard(); }
+
+/* ---------- Writing tasks ---------- */
+function wrStem(word){ const w = word.toLowerCase(); return w.slice(0, Math.max(5, w.length-3)); }
+
+function renderWriting(){
+  document.getElementById('writingCards').innerHTML = WRITING.map((t,i)=>
+    `<article class="wr" id="wr-card-${i}">
+      <h3>${esc(t[0])}</h3>
+      <p class="task">${esc(t[1])}</p>
+      <p class="need">Needs: ${esc(t[2])}</p>
+      <textarea id="wr-${i}" placeholder="Start writing here…" oninput="writingStats(${i})" aria-label="${esc(t[0])}"></textarea>
+      <div class="wr-meta"><span id="wr-count-${i}">0 words</span><span id="wr-used-${i}">0 unit words used</span></div>
+      <div class="chips" id="wr-chips-${i}"></div>
+    </article>`).join('');
+  let saved = {};
+  try{ saved = JSON.parse(localStorage.getItem(STORE_KEY+'-writing') || '{}'); }catch(e){}
+  WRITING.forEach((_,i)=>{
+    const ta = document.getElementById('wr-'+i);
+    if(saved && saved[i]) ta.value = saved[i];
+    writingStats(i, false);
+  });
+}
+
+function writingStats(i, persist){
+  const ta = document.getElementById('wr-'+i);
+  const text = ta.value;
+  const words = (text.trim().match(/\S+/g) || []).length;
+  const toks  = (text.toLowerCase().match(/[a-z]+/g) || []);
+  const used  = WORDS.map(w=>w[0]).filter(w=> toks.some(t=>t.startsWith(wrStem(w))) );
+  document.getElementById('wr-count-'+i).textContent = `${words} word${words===1?'':'s'}`;
+  document.getElementById('wr-used-'+i).textContent  = `${used.length} unit word${used.length===1?'':'s'} used`;
+  document.getElementById('wr-chips-'+i).innerHTML = WORDS.map(w=>
+    `<span class="chip${used.includes(w[0])?' used':''}">${esc(w[0])}</span>`).join('');
+  if(persist !== false){
+    try{
+      const store = JSON.parse(localStorage.getItem(STORE_KEY+'-writing') || '{}');
+      store[i] = text;
+      localStorage.setItem(STORE_KEY+'-writing', JSON.stringify(store));
+    }catch(e){}
+  }
+}
+
+/* ---------- Pronunciation (browser speech engine, no audio files) ---------- */
+const SPEECH = {ok:false, on:true, rate:0.95, voice:null};
+
+function initSpeech(){
+  SPEECH.ok = ('speechSynthesis' in window) && (typeof window.SpeechSynthesisUtterance === 'function');
+  document.body.classList.toggle('no-speech', !SPEECH.ok);
+  if(!SPEECH.ok) return;
+  try{
+    SPEECH.on   = localStorage.getItem(STORE_KEY+'-sound') !== 'off';
+    SPEECH.rate = localStorage.getItem(STORE_KEY+'-slow') === 'on' ? 0.65 : 0.95;
+  }catch(e){}
+  pickVoice();
+  if(typeof speechSynthesis.addEventListener === 'function'){
+    speechSynthesis.addEventListener('voiceschanged', pickVoice);
+  }
+  paintSoundButtons();
+}
+
+function pickVoice(){
+  try{
+    const vs = speechSynthesis.getVoices() || [];
+    SPEECH.voice = vs.find(v=>/^en[-_]GB/i.test(v.lang))
+                || vs.find(v=>/^en[-_]US/i.test(v.lang))
+                || vs.find(v=>/^en/i.test(v.lang))
+                || null;
+  }catch(e){}
+}
+
+function say(text, el){
+  if(!SPEECH.ok || !SPEECH.on || !text) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(String(text));
+    if(SPEECH.voice){ u.voice = SPEECH.voice; u.lang = SPEECH.voice.lang; } else { u.lang = 'en-US'; }
+    u.rate = SPEECH.rate; u.pitch = 1;
+    if(el){
+      document.querySelectorAll('.spk.speaking').forEach(b=>b.classList.remove('speaking'));
+      el.classList.add('speaking');
+      u.onend = u.onerror = ()=>el.classList.remove('speaking');
+    }
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+function sayWord(i, ev){
+  if(ev){ ev.stopPropagation(); }
+  say(WORDS[i][0], ev ? ev.currentTarget : null);
+}
+
+function sayCard(full, ev){
+  if(ev){ ev.stopPropagation(); }
+  if(!deckQueue.length) return;
+  const w = WORDS[deckQueue[0]];
+  say(full ? `${w[0]}. ${w[2]}.` : w[0], ev ? ev.currentTarget : null);
+}
+
+function plainPrompt(sec, i){
+  const q = sec.data[i], st = state[sec.id][i];
+  if(sec.kind==='phrase') return `${sec.lead} ${q[0].replace(/\*\*/g,'')}?`;
+  const answered = st && st.done;
+  let text = q[0].replace('_____', answered ? answersFor(sec,i)[0] : 'blank');
+  if(sec.kind==='choice' && !answered) text += ` A: ${q[1][0]}. B: ${q[1][1]}.`;
+  return text;
+}
+
+function speakQ(secId, i, ev){
+  const sec = SECTIONS.find(s=>s.id===secId);
+  say(plainPrompt(sec,i), ev ? ev.currentTarget : null);
+}
+
+function listenBtn(secId, i){
+  return `<button class="mini spk" onclick="speakQ('${secId}',${i},event)" aria-label="Listen to question ${i+1}">🔊 Listen</button>`;
+}
+
+function toggleSound(){
+  SPEECH.on = !SPEECH.on;
+  if(!SPEECH.on){ try{ speechSynthesis.cancel(); }catch(e){} }
+  try{ localStorage.setItem(STORE_KEY+'-sound', SPEECH.on?'on':'off'); }catch(e){}
+  paintSoundButtons();
+}
+
+function toggleSlow(){
+  SPEECH.rate = SPEECH.rate < 0.8 ? 0.95 : 0.65;
+  try{ localStorage.setItem(STORE_KEY+'-slow', SPEECH.rate<0.8?'on':'off'); }catch(e){}
+  paintSoundButtons();
+}
+
+function paintSoundButtons(){
+  const s = document.getElementById('btnSound'), l = document.getElementById('btnSlow');
+  if(s){ s.textContent = SPEECH.on ? '🔊 Sound on' : '🔇 Sound off'; s.setAttribute('aria-pressed', String(SPEECH.on)); }
+  if(l){ const slow = SPEECH.rate < 0.8; l.textContent = slow ? '🐢 Slow speech' : '🐇 Normal speed'; l.setAttribute('aria-pressed', String(slow)); }
+}
+
+/* ---------- Victory ---------- */
+function showVictory(c,t){
+  const pct = Math.round(c/t*100);
+  const stars = pct>=90?'⭐⭐⭐':pct>=70?'⭐⭐':pct>=50?'⭐':'';
+  document.getElementById('vText').innerHTML =
+    `All ${t} questions answered, ${pct}% right on the first try ${stars}<br>${c} first-try correct · ${t-c} worth another look`;
+  const card = document.getElementById('vCard');
+  card.querySelectorAll('.confetti').forEach(e=>e.remove());
+  if(!mq('(prefers-reduced-motion: reduce)')){
+    const em = ['🎉','✨','🎊','🏆','🌟','💫'];
+    for(let k=0;k<18;k++){
+      const s = document.createElement('span');
+      s.className='confetti';
+      s.textContent = em[k%em.length];
+      s.style.left = (Math.random()*100)+'%';
+      s.style.animationDelay = (Math.random()*2)+'s';
+      s.style.animationDuration = (2+Math.random()*2)+'s';
+      card.appendChild(s);
+    }
+  }
+  document.getElementById('victory').classList.add('show');
+}
+function closeVictory(){ document.getElementById('victory').classList.remove('show'); }
+
+/* ---------- Reset ---------- */
+function resetAll(){
+  if(!confirm('Clear every answer and start Unit 1 again?')) return;
+  state = {choice:{}, syn:{}, ant:{}, complete:{}};
+  celebrated = false;
+  deckKnown = [];
+  wrongOnly = false;
+  try{ localStorage.removeItem(STORE_KEY+'-writing'); }catch(e){}
+  toggleWrongOnly(false);
+  blankOrder();
+  if(shuffleOn) SECTIONS.forEach(s=>{ order[s.id] = shuffled(s.data.map((_,i)=>i)); });
+  renderSections();
+  buildDeck(); renderCard();
+  renderWriting();
+  save();
+  update();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ---------- Print: open the panels so they appear on paper ---------- */
+window.addEventListener('beforeprint', ()=>document.querySelectorAll('details.panel').forEach(d=>d.open=true));
+
+/* =========================================================
+   INIT
+   ========================================================= */
+initTheme();
+initSpeech();
+load();
+if(shuffleOn){
+  SECTIONS.forEach(s=>{ order[s.id] = shuffled(s.data.map((_,i)=>i)); });
+  const b = document.getElementById('btnShuffle');
+  b.setAttribute('aria-pressed','true');
+  b.textContent = 'Workbook order';
+}
+renderBank();
+renderSections();
+renderKey();
+buildDeck();
+renderCard();
+renderWriting();
+renderTabs();
+update();
+</script>
+</body>
+</html>
